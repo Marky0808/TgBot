@@ -35,4 +35,19 @@ class Program
         
         cts.Cancel();
     }
+    
+    static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+    {
+        if (update.Message is not { } message) return;
+        if (message.Text is not { } messageText) return;
+
+        Console.WriteLine($"Отримано повідомлення: '{messageText}' від чату {message.Chat.Id}.");
+        
+        string translatedText = await TranslateTextAsync(messageText, "uk");
+        
+        await botClient.SendMessage(
+            chatId: message.Chat.Id,
+            text: translatedText,
+            cancellationToken: cancellationToken);
+    }
 }
