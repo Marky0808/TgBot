@@ -50,4 +50,17 @@ class Program
             text: translatedText,
             cancellationToken: cancellationToken);
     }
+    
+    static Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+    {
+        var ErrorMessage = exception switch
+        {
+            ApiRequestException apiRequestException
+                => $"Помилка Telegram API:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
+            _ => exception.ToString()
+        };
+
+        Console.WriteLine(ErrorMessage);
+        return Task.CompletedTask;
+    }
 }
