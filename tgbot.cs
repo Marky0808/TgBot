@@ -1,6 +1,6 @@
 namespace ConsoleApp3;
 
-public class tgbot
+public class Program1
 {
     
 }
